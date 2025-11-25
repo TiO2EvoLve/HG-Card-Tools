@@ -41,6 +41,7 @@ public partial class MainLayout
         {
             new() { Text = "文本查重", Icon = "fa-solid fa-fw fa-flag", Url = "/", Match = NavLinkMatch.All },
             new() { Text = "连续检查", Icon = "fa-solid fa-fw fa-flag", Url = "/continuity", Match = NavLinkMatch.All },
+            new() { Text = "卡号计算", Icon = "fa-solid fa-fw fa-flag", Url = "/compute", Match = NavLinkMatch.All },
             new() { Text = "测试", Icon = "fa-solid fa-fw fa-flag", Url = "/test", Match = NavLinkMatch.All },
         };
 

@@ -1,0 +1,120 @@
+﻿@page "/compute"
+@using System.Numerics
+
+<div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-2xl font-semibold mb-4">卡号计算</h1>
+
+    <div class="grid gap-6">
+        <!-- Section 1: Start and End -> Count -->
+        <section class="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 class="text-lg font-medium mb-2">张数计算</h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input class="flex-1 p-2 border rounded" placeholder="起始卡号（如 3104910200026700048）" @bind="StartRaw1" />
+                <input class="flex-1 p-2 border rounded" placeholder="结束卡号（如 3104910200026700051）" @bind="EndRaw1" />
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" @onclick="CalculateRangeCount">计算</button>
+            </div>
+            @if (!string.IsNullOrEmpty(RangeMessage))
+            {
+                <div class="mt-3 text-sm text-red-600">@RangeMessage</div>
+            }
+            @if (RangeCount != null)
+            {
+                <div class="mt-3 text-sm text-green-700">总张数：<strong class="font-semibold">@RangeCount</strong></div>
+            }
+        </section>
+
+        <!-- Section 2: Start + Count -> Last -->
+        <section class="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 class="text-lg font-medium mb-2">计算末位卡号</h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input class="flex-1 p-2 border rounded" placeholder="起始卡号" @bind="StartRaw2" />
+                <input class="w-40 p-2 border rounded" placeholder="张数（正整数）" @bind="CountRaw2" />
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" @onclick="CalculateLastFromCount">计算</button>
+            </div>
+            @if (!string.IsNullOrEmpty(LastMessage))
+            {
+                <div class="mt-3 text-sm text-red-600">@LastMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(LastResult))
+            {
+                <div class="mt-3 text-sm text-green-700">末位卡号：<strong class="font-semibold">@LastResult</strong></div>
+            }
+        </section>
+
+    </div>
+</div>
+
+@code {
+    // Section 1 fields
+    private string StartRaw1 { get; set; } = string.Empty;
+    private string EndRaw1 { get; set; } = string.Empty;
+    private string RangeMessage { get; set; } = string.Empty;
+    private string? RangeCount { get; set; }
+
+    // Section 2 fields
+    private string StartRaw2 { get; set; } = string.Empty;
+    private string CountRaw2 { get; set; } = string.Empty;
+    private string LastMessage { get; set; } = string.Empty;
+    private string LastResult { get; set; } = string.Empty;
+
+    // Helper: try parse BigInteger and capture original length for padding
+    private bool TryParseBig(string s, out BigInteger value, out int origLen)
+    {
+        origLen = 0;
+        value = 0;
+        if (string.IsNullOrWhiteSpace(s)) return false;
+        var t = s.Trim();
+        origLen = t.Length;
+        return BigInteger.TryParse(t, out value);
+    }
+
+    private void CalculateRangeCount()
+    {
+        RangeMessage = string.Empty;
+        RangeCount = null;
+        if (!TryParseBig(StartRaw1, out var start, out var startLen))
+        {
+            RangeMessage = "起始卡号无效。";
+            return;
+        }
+        if (!TryParseBig(EndRaw1, out var end, out var endLen))
+        {
+            RangeMessage = "结束卡号无效。";
+            return;
+        }
+        if (end < start)
+        {
+            RangeMessage = "结束卡号应大于或等于起始卡号。";
+            return;
+        }
+        var count = end - start + 1;
+        RangeCount = count.ToString();
+    }
+
+    private void CalculateLastFromCount()
+    {
+        LastMessage = string.Empty;
+        LastResult = string.Empty;
+        if (!TryParseBig(StartRaw2, out var start, out var startLen))
+        {
+            LastMessage = "起始卡号无效。";
+            return;
+        }
+        if (!long.TryParse(CountRaw2, out var countLong) || countLong <= 0)
+        {
+            LastMessage = "张数必须是正整数。";
+            return;
+        }
+        var count = new BigInteger(countLong);
+        var last = start + (count - 1);
+        var lastStr = last.ToString();
+        // preserve leading zeros when reasonable (use start length as pad)
+        if (startLen > lastStr.Length)
+        {
+            lastStr = lastStr.PadLeft(startLen, '0');
+        }
+        LastResult = lastStr;
+    }
+
+
+}
