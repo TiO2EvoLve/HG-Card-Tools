@@ -9,13 +9,12 @@
             TabDefaultUrl="/" UseTabSet="@UseTabSet" IsFixedTabHeader="IsFixedTabHeader" AdditionalAssemblies="new[] { GetType().Assembly }"
             Menus="@Menus" class="@Theme">
         <Header>
-            
+
         </Header>
         <Side>
             <div class="layout-banner">
-                <img class="layout-logo" src="../images/logo.png"/>
                 <div class="layout-title">
-                    <span>后台管理</span>
+                    <span>HG工具箱</span>
                 </div>
             </div>
         </Side>
@@ -25,77 +24,15 @@
             </CascadingValue>
         </Main>
         <Footer>
-            <div class="text-center flex-fill">
-                <a class="page-layout-demo-footer-link" href="https://pro.blazor.zone/" target="_blank">Bootstrap Admin</a>
-            </div>
+            @* <div class="text-center flex-fill"> *@
+            @*     <a class="page-layout-demo-footer-link" href="https://pro.blazor.zone/" target="_blank">Bootstrap Admin</a> *@
+            @* </div> *@
         </Footer>
     </Layout>
-
-    <Drawer Placement="Placement.Right" @bind-IsOpen="@IsOpen" IsBackdrop="true">
-        <div class="layout-drawer-body">
-            <div class="btn btn-info w-100" @onclick="@(e => IsOpen = false)">点击关闭</div>
-            <GroupBox Title="布局调整">
-                <div class="row">
-                    <div class="col-6">
-                        <LayoutPreview IsFullSide="true" IsActive="IsFullSide" OnClick="OnSideChanged"></LayoutPreview>
-                    </div>
-                    <div class="col-6">
-                        <LayoutPreview IsFullSide="false" IsActive="!IsFullSide" OnClick="OnSideChanged"></LayoutPreview>
-                    </div>
-                </div>
-            </GroupBox>
-
-            <GroupBox Title="固定调整">
-                <div class="row">
-                    <div class="col-6">
-                        <Switch @bind-Value="@IsFixedHeader" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">固定页头</span>
-                    </div>
-                    <div class="col-6">
-                        <Switch @bind-Value="@IsFixedFooter" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">固定页脚</span>
-                    </div>
-                    <div class="col-6">
-                        <Switch @bind-Value="@ShowFooter" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">显示页脚</span>
-                    </div>
-                </div>
-            </GroupBox>
-
-            <GroupBox Title="更多设置">
-                <div class="row">
-                    <div class="col-6">
-                        <Switch @bind-Value="@UseTabSet" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">@(UseTabSet ? "多标签" : "单页")</span>
-                    </div>
-                    <div class="col-6">
-                        <Switch @bind-Value="@IsFixedTabHeader" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">固定标签页</span>
-                    </div>
-                    <div class="col-6">
-                        <Switch @bind-Value="@ShowTabInHeader" OnColor="@Color.Success"></Switch>
-                    </div>
-                    <div class="col-6">
-                        <span class="cell-label">@(ShowTabInHeader ? "顶栏标签" : "正常标签")</span>
-                    </div>
-                </div>
-            </GroupBox>
-        </div>
-    </Drawer>
 </BootstrapBlazorRoot>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
+    发生未知错误
+    <a href="" class="reload">刷新</a>
     <a class="dismiss">🗙</a>
 </div>
