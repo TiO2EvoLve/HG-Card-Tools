@@ -39,7 +39,7 @@ public partial class MainLayout
     {
         var menus = new List<MenuItem>
         {
-            new() { Text = "Index", Icon = "fa-solid fa-fw fa-flag", Url = "/", Match = NavLinkMatch.All },
+            new() { Text = "文本查重", Icon = "fa-solid fa-fw fa-flag", Url = "/", Match = NavLinkMatch.All },
         };
 
         return menus;

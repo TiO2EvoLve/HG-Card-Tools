@@ -3,89 +3,186 @@
 
 <PageTitle>文本查重</PageTitle>
 
-<div class="min-h-screen bg-slate-50 py-10">
-  <div class="max-w-6xl mx-auto px-4">
-    <h1 class="text-3xl font-semibold text-slate-800 mb-6">文本查重工具</h1>
+<!-- 全局样式 -->
+<style>
+    body {
+        font-family: 'Inter', 'Microsoft YaHei', '微软雅黑', -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+</style>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- 左：输入 -->
-      <div>
-        <label class="block text-sm font-medium text-slate-700 mb-2">输入（每行一条）</label>
-        <textarea @bind="InputText"
-                  class="w-full h-96 p-4 rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="在这里粘贴或输入多行文本，每行一条..."></textarea>
-        <div class="mt-2 text-sm text-slate-500">共 @TotalLines 条（去空后 @NonEmptyLines 条）</div>
-      </div>
-
-      <!-- 中：按钮 -->
-      <div class="flex items-center justify-center">
-        <div class="space-y-4">
-          <button @onclick="CheckDuplicates"
-                  class="w-40 px-6 py-3 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg shadow-lg hover:scale-105 transform transition">查 重</button>
-          <button @onclick="Clear"
-                  class="w-40 px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg shadow-sm hover:bg-slate-50">清空</button>
-          <label class="inline-flex items-center space-x-2 text-sm text-slate-600"><input type="checkbox" @bind="IgnoreCase" class="rounded"/> <span>忽略大小写</span></label>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- 标题区域 -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-2xl shadow-lg mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-3">
+                文本查重工具
+            </h1>
         </div>
-      </div>
 
-      <!-- 右：展示 -->
-      <div>
-        <label class="block text-sm font-medium text-slate-700 mb-2">重复项</label>
-        <div class="w-full h-96 p-4 rounded-lg border border-slate-200 bg-white text-slate-800 overflow-auto shadow-sm">
-          @if (Duplicates == null || !Duplicates.Any())
-          {
-              <div class="text-slate-500">未发现重复项</div>
-          }
-          else
-          {
-              <ul class="space-y-2">
-                  @foreach (var d in Duplicates)
-                  {
-                      <li class="p-3 bg-red-50 rounded flex justify-between items-center">
-                          <div>
-                              <div class="font-medium text-red-700">@d.Item</div>
-                              <div class="text-sm text-slate-600">出现次数：@d.Count</div>
-                          </div>
-                          <div class="text-sm text-slate-500">@((d.Count > 1) ? "重复" : "")</div>
-                      </li>
-                  }
-              </ul>
-          }
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+            <!-- 左：输入区域 -->
+            <div class="xl:col-span-5">
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/60">
+                    <div class="flex items-center justify-between mb-4">
+                        <label class="block text-sm font-semibold text-slate-700">输入文本</label>
+                        <div class="flex items-center space-x-2 text-xs text-slate-500 bg-slate-100/80 px-3 py-1.5 rounded-full">
+                            <span>共 @TotalLines 条</span>
+                            <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
+                            <span class="text-blue-600 font-medium">@NonEmptyLines 条有效</span>
+                        </div>
+                    </div>
+                    <textarea @bind="InputText"
+                              class="w-full overflow-hidden h-96 p-2 rounded-2xl border-2 border-slate-100 bg-white text-slate-800 shadow-inner
+                                     focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100
+                                     transition-all duration-300 ease-out resize-none
+                                     placeholder:text-slate-400"
+                              placeholder="请输入或粘贴文本内容，每行一条记录..."></textarea>
+                </div>
+            </div>
+
+            <!-- 中：控制区域 -->
+            <div class="xl:col-span-2 flex items-center justify-center">
+                <div class="space-y-8 w-full max-w-xs">
+                    <button @onclick="CheckDuplicates"
+                            class="rounded group w-full px-8 py-4 bg-blue-500 text-white
+                                   rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105
+                                   transform transition-all duration-300 ease-out
+                                   flex items-center justify-center space-x-2 font-semibold">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>开始查重</span>
+                    </button>
+
+                    <button @onclick="Clear"
+                            class="rounded group w-full px-8 py-4 bg-white/90 backdrop-blur-sm border-2 border-slate-200 text-slate-700
+                                   rounded-2xl shadow-lg hover:shadow-xl hover:bg-white hover:border-slate-300
+                                   transform transition-all duration-300 ease-out
+                                   flex items-center justify-center space-x-2 font-medium">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        <span>清空内容</span>
+                    </button>
+
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/60">
+                        <label class="inline-flex  items-center space-x-3 cursor-pointer group">
+                            <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors">
+                                忽略大小写
+                            </span>
+                            <div class="relative">
+                                <input type="checkbox" @bind="IgnoreCase"
+                                       class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer
+                                            peer-checked:after:translate-x-full peer-checked:after:border-white
+                                            after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                                            after:bg-white after:border after:rounded-full after:h-5 after:w-5
+                                            after:transition-all peer-checked:bg-blue-500"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右：结果区域 -->
+            <div class="xl:col-span-5">
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/60 h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <label class="block text-sm font-semibold text-slate-700">查重结果</label>
+                        @if (Duplicates?.Any() == true)
+                        {
+                            <div class="bg-red-100 text-red-800 text-xs font-medium px-3 py-1.5 rounded-full">
+                                发现 @Duplicates.Count 个重复项
+                            </div>
+                        }
+                    </div>
+
+                    <div class="w-full h-96 rounded-2xl border-2 border-slate-100 bg-white/50 overflow-hidden shadow-inner">
+                        @if (Duplicates == null || !Duplicates.Any())
+                        {
+                            <div class="h-full flex flex-col items-center justify-center text-slate-400 p-8">
+                                <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <p class="text-lg font-medium mb-2">暂无重复内容</p>
+                                <p class="text-sm text-center">输入文本并点击查重按钮开始检测</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="h-full overflow-auto p-1">
+                                <ul class="space-y-3 p-2">
+                                    @foreach (var d in Duplicates)
+                                    {
+                                        <li class="p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-200/60
+                                                            hover:shadow-lg hover:scale-[1.02] transform transition-all duration-200 ease-out">
+                                            <div class="flex items-start justify-between">
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="font-medium text-amber-900 text-sm leading-relaxed break-words">
+                                                        @d.Item
+                                                    </div>
+                                                    <div class="flex items-center space-x-4 mt-2">
+                                                        <span class="inline-flex items-center space-x-1 text-xs text-slate-600 bg-white/80 px-2 py-1 rounded-full">
+                                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            <span>出现 @d.Count 次</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm ml-3 flex-shrink-0">
+                                                    重复
+                                                </span>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 @code {
-  private string InputText { get; set; } = string.Empty;
-  private List<(string Item, int Count)> Duplicates { get; set; } = new();
-  private bool IgnoreCase { get; set; } = true;
+    private string InputText { get; set; } = string.Empty;
+    private List<(string Item, int Count)> Duplicates { get; set; } = new();
+    private bool IgnoreCase { get; set; } = true;
 
-  private int TotalLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)?.Length ?? 0;
-  private int NonEmptyLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).Select(l => l.Trim()).Count(l => !string.IsNullOrWhiteSpace(l)) ?? 0;
+    private int TotalLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)?.Length ?? 0;
+    private int NonEmptyLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).Select(l => l.Trim()).Count(l => !string.IsNullOrWhiteSpace(l)) ?? 0;
 
-  private void CheckDuplicates()
-  {
-      var comparer = IgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
-      var lines = InputText?
-          .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
-          .Select(l => l.Trim())
-          .Where(l => !string.IsNullOrWhiteSpace(l))
-          .ToList() ?? new List<string>();
+    private void CheckDuplicates()
+    {
+        var comparer = IgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+        var lines = InputText?
+            .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
+            .Select(l => l.Trim())
+            .Where(l => !string.IsNullOrWhiteSpace(l))
+            .ToList() ?? new List<string>();
 
-      Duplicates = lines
-          .GroupBy(l => l, comparer)
-          .Select(g => new { Item = g.Key, Count = g.Count() })
-          .Where(x => x.Count > 1)
-          .OrderByDescending(x => x.Count)
-          .Select(x => (x.Item, x.Count))
-          .ToList();
-  }
+        Duplicates = lines
+            .GroupBy(l => l, comparer)
+            .Select(g => new { Item = g.Key, Count = g.Count() })
+            .Where(x => x.Count > 1)
+            .OrderByDescending(x => x.Count)
+            .Select(x => (x.Item, x.Count))
+            .ToList();
+    }
 
-  private void Clear()
-  {
-      InputText = string.Empty;
-      Duplicates.Clear();
-  }
+    private void Clear()
+    {
+        InputText = string.Empty;
+        Duplicates.Clear();
+    }
 }
