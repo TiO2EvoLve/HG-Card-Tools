@@ -1,0 +1,209 @@
+﻿@page "/continuity"
+@using System.Numerics
+
+<div class="p-6 max-w-4xl mx-auto">
+    <h3 class="text-2xl font-semibold mb-4">连续性校验</h3>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">请输入号码（每行一个）</label>
+        <textarea @bind="InputText" rows="8" class="w-full rounded border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-300 p-3 font-mono" placeholder="每行一个号码"></textarea>
+        <div class="flex gap-2 mt-2">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" @onclick="FillSample">示例填充</button>
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" @onclick="Validate">校验</button>
+            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300" @onclick="Clear">清空</button>
+        </div>
+    </div>
+
+    @if (HasRun)
+    {
+        <div class="mb-4">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-sm font-medium">结果：</span>
+                <span class="px-2 py-1 rounded text-sm font-semibold text-white" style="background-color:@(AllContinuous ? "#16a34a" : "#ef4444")">@(AllContinuous ? "全部连续" : "存在问题")</span>
+                <span class="text-sm text-gray-600 ml-2">共 @Entries.Count 项，格式错误 @ParseErrorsCount，重复 @DuplicatesCount，缺失范围 @MissingRanges.Count</span>
+            </div>
+
+            @if (MissingRanges.Count > 0)
+            {
+                <div class="mb-2">
+                    <div class="text-sm font-medium">缺失范围：</div>
+                    <ul class="list-disc list-inside text-sm text-gray-800">
+                        @foreach (var r in MissingRanges)
+                        {
+                            <li>@r</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <div class="border rounded overflow-hidden">
+                <div class="grid grid-cols-12 gap-0 bg-gray-50 text-xs font-semibold text-gray-600 p-2">
+                    <div class="col-span-1">#</div>
+                    <div class="col-span-8">号码</div>
+                    <div class="col-span-3">状态</div>
+                </div>
+                @for (int i = 0; i < Entries.Count; i++)
+                {
+                    var e = Entries[i];
+                    <div class="grid grid-cols-12 gap-0 items-center p-2 border-t">
+                        <div class="col-span-1 text-sm text-gray-700">@(@i + 1)</div>
+                        <div class="col-span-8 font-mono text-sm text-gray-800">@e.Raw</div>
+                        <div class="col-span-3 text-sm">
+                            @if (!e.Parsed)
+                            {
+                                <span class="inline-block px-2 py-1 rounded bg-red-500 text-white">格式错误</span>
+                            }
+                            else if (e.IsDuplicate)
+                            {
+                                <span class="inline-block px-2 py-1 rounded bg-yellow-500 text-white">重复</span>
+                            }
+                            else if (e.IsGap)
+                            {
+                                <span class="inline-block px-2 py-1 rounded bg-orange-600 text-white">与前项差 > 1（缺失 @e.GapCount 项）</span>
+                            }
+                            else if (e.IsDescending)
+                            {
+                                <span class="inline-block px-2 py-1 rounded bg-purple-600 text-white">下降序列</span>
+                            }
+                            else
+                            {
+                                <span class="inline-block px-2 py-1 rounded bg-green-600 text-white">连续</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+    // Input text bound to textarea
+    private string InputText { get; set; } = string.Empty;
+
+    // Result entries
+    private List<Entry> Entries { get; set; } = new();
+
+    // Missing ranges in human readable form
+    private List<string> MissingRanges { get; set; } = new();
+
+    private bool HasRun { get; set; } = false;
+    private bool AllContinuous { get; set; } = false;
+
+    private int ParseErrorsCount => Entries.Count(e => !e.Parsed);
+    private int DuplicatesCount => Entries.Count(e => e.IsDuplicate);
+
+    private void FillSample()
+    {
+        InputText = "3104910200026700048\n3104910200026700049\n3104910200026700050\n3104910200026700051";
+    }
+
+    private void Clear()
+    {
+        InputText = string.Empty;
+        Entries.Clear();
+        MissingRanges.Clear();
+        HasRun = false;
+        AllContinuous = false;
+    }
+
+    private void Validate()
+    {
+        Entries = new List<Entry>();
+        MissingRanges = new List<string>();
+        HasRun = true;
+        AllContinuous = true;
+
+        if (string.IsNullOrWhiteSpace(InputText))
+        {
+            AllContinuous = false;
+            return;
+        }
+
+        var lines = InputText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                             .Select(l => l.Trim())
+                             .Where(l => l.Length > 0)
+                             .ToList();
+
+        foreach (var line in lines)
+        {
+            var entry = new Entry { Raw = line };
+            if (BigInteger.TryParse(line, out var v))
+            {
+                entry.Value = v;
+                entry.Parsed = true;
+            }
+            else
+            {
+                entry.Parsed = false;
+            }
+            Entries.Add(entry);
+        }
+
+        BigInteger? prev = null;
+        for (int i = 0; i < Entries.Count; i++)
+        {
+            var cur = Entries[i];
+            if (!cur.Parsed)
+            {
+                AllContinuous = false;
+                continue;
+            }
+            if (prev is null)
+            {
+                // first parsed value
+                prev = cur.Value;
+                continue;
+            }
+
+            var diff = cur.Value.Value - prev.Value;
+            if (diff == 1)
+            {
+                // ok
+            }
+            else if (diff == 0)
+            {
+                cur.IsDuplicate = true;
+                AllContinuous = false;
+            }
+            else if (diff > 1)
+            {
+                cur.IsGap = true;
+                cur.GapCount = (int)(diff - 1);
+                AllContinuous = false;
+                // record missing range from prev+1 to cur-1
+                var start = (prev.Value + 1).ToString();
+                var end = (cur.Value.Value - 1).ToString();
+                if (prev.Value + 1 == cur.Value.Value - 1)
+                {
+                    MissingRanges.Add(start);
+                }
+                else
+                {
+                    MissingRanges.Add(start + " → " + end);
+                }
+            }
+            else // diff < 0
+            {
+                cur.IsDescending = true;
+                AllContinuous = false;
+            }
+
+            prev = cur.Value;
+        }
+
+        // If any parse errors or counts > 0 then AllContinuous is false already
+    }
+
+    private class Entry
+    {
+        public string Raw { get; set; } = string.Empty;
+        public BigInteger? Value { get; set; }
+        public bool Parsed { get; set; }
+        public bool IsDuplicate { get; set; }
+        public bool IsGap { get; set; }
+        public int GapCount { get; set; }
+        public bool IsDescending { get; set; }
+    }
+}
