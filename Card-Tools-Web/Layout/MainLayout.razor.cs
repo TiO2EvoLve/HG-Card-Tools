@@ -1,7 +1,7 @@
 ﻿using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace Card_Tools_Web.Layout;
+namespace Web.Layout;
 
 public partial class MainLayout
 {
