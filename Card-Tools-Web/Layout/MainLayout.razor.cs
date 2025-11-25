@@ -39,9 +39,9 @@ public partial class MainLayout
     {
         var menus = new List<MenuItem>
         {
-            new() { Text = "文本查重", Icon = "fa-solid fa-fw fa-flag", Url = "/", Match = NavLinkMatch.All },
-            new() { Text = "连续检查", Icon = "fa-solid fa-fw fa-flag", Url = "/continuity", Match = NavLinkMatch.All },
-            new() { Text = "卡号计算", Icon = "fa-solid fa-fw fa-flag", Url = "/compute", Match = NavLinkMatch.All },
+            new() { Text = "文本查重", Icon = "fa-solid fa-fw fa-house", Url = "/", Match = NavLinkMatch.All },
+            new() { Text = "连续检查", Icon = "fa-solid fa-fw fa-calendar-check", Url = "/continuity", Match = NavLinkMatch.All },
+            new() { Text = "卡号计算", Icon = "fa-solid fa-fw fa-computer", Url = "/compute", Match = NavLinkMatch.All },
             new() { Text = "测试", Icon = "fa-solid fa-fw fa-flag", Url = "/test", Match = NavLinkMatch.All },
         };
 
