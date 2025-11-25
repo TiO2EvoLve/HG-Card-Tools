@@ -1,0 +1,73 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.VerifyReferenceTrimCompatibility = 
+build_property.VerifyReferenceAotCompatibility = 
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = Card-Tools-Web
+build_property.RootNamespace = Card-Tools-Web
+build_property.ProjectDir = D:\Project\C#\Card-Tools-Web\Card-Tools-Web\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Project\C#\Card-Tools-Web\Card-Tools-Web
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Layout/LayoutThumbnail.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XExheW91dFRodW1ibmFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Layout/Widget.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XFdpZGdldC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Pages/TableDemo.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFibGVEZW1vLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Layout/LayoutPreview.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XExheW91dFByZXZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-tn5wr3kx3h
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-31bfcj47ii
+
+[D:/Project/C\#/Card-Tools-Web/Card-Tools-Web/Pages/Users.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-r2hez6xybg

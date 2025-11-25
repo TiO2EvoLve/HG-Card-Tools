@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Project\\C#\\Card-Tools-Web\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{91C29D17-DB68-44CE-BF49-20BF33809281}|Card-Tools-Web\\Card-Tools-Web.csproj|d:\\project\\c#\\card-tools-web\\card-tools-web\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{91C29D17-DB68-44CE-BF49-20BF33809281}|Card-Tools-Web\\Card-Tools-Web.csproj|solutionrelative:card-tools-web\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Counter.razor",
+              "DocumentMoniker": "D:\\Project\\C#\\Card-Tools-Web\\Card-Tools-Web\\Pages\\Counter.razor",
+              "RelativeDocumentMoniker": "Card-Tools-Web\\Pages\\Counter.razor",
+              "ToolTip": "D:\\Project\\C#\\Card-Tools-Web\\Card-Tools-Web\\Pages\\Counter.razor",
+              "RelativeToolTip": "Card-Tools-Web\\Pages\\Counter.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-25T00:18:50.457Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

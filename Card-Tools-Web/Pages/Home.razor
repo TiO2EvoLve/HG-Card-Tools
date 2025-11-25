@@ -1,0 +1,91 @@
+﻿@page "/"
+@using System.Linq
+
+<PageTitle>文本查重</PageTitle>
+
+<div class="min-h-screen bg-slate-50 py-10">
+  <div class="max-w-6xl mx-auto px-4">
+    <h1 class="text-3xl font-semibold text-slate-800 mb-6">文本查重工具</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 左：输入 -->
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-2">输入（每行一条）</label>
+        <textarea @bind="InputText"
+                  class="w-full h-96 p-4 rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="在这里粘贴或输入多行文本，每行一条..."></textarea>
+        <div class="mt-2 text-sm text-slate-500">共 @TotalLines 条（去空后 @NonEmptyLines 条）</div>
+      </div>
+
+      <!-- 中：按钮 -->
+      <div class="flex items-center justify-center">
+        <div class="space-y-4">
+          <button @onclick="CheckDuplicates"
+                  class="w-40 px-6 py-3 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg shadow-lg hover:scale-105 transform transition">查 重</button>
+          <button @onclick="Clear"
+                  class="w-40 px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg shadow-sm hover:bg-slate-50">清空</button>
+          <label class="inline-flex items-center space-x-2 text-sm text-slate-600"><input type="checkbox" @bind="IgnoreCase" class="rounded"/> <span>忽略大小写</span></label>
+        </div>
+      </div>
+
+      <!-- 右：展示 -->
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-2">重复项</label>
+        <div class="w-full h-96 p-4 rounded-lg border border-slate-200 bg-white text-slate-800 overflow-auto shadow-sm">
+          @if (Duplicates == null || !Duplicates.Any())
+          {
+              <div class="text-slate-500">未发现重复项</div>
+          }
+          else
+          {
+              <ul class="space-y-2">
+                  @foreach (var d in Duplicates)
+                  {
+                      <li class="p-3 bg-red-50 rounded flex justify-between items-center">
+                          <div>
+                              <div class="font-medium text-red-700">@d.Item</div>
+                              <div class="text-sm text-slate-600">出现次数：@d.Count</div>
+                          </div>
+                          <div class="text-sm text-slate-500">@((d.Count > 1) ? "重复" : "")</div>
+                      </li>
+                  }
+              </ul>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+  private string InputText { get; set; } = string.Empty;
+  private List<(string Item, int Count)> Duplicates { get; set; } = new();
+  private bool IgnoreCase { get; set; } = true;
+
+  private int TotalLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)?.Length ?? 0;
+  private int NonEmptyLines => InputText?.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).Select(l => l.Trim()).Count(l => !string.IsNullOrWhiteSpace(l)) ?? 0;
+
+  private void CheckDuplicates()
+  {
+      var comparer = IgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+      var lines = InputText?
+          .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
+          .Select(l => l.Trim())
+          .Where(l => !string.IsNullOrWhiteSpace(l))
+          .ToList() ?? new List<string>();
+
+      Duplicates = lines
+          .GroupBy(l => l, comparer)
+          .Select(g => new { Item = g.Key, Count = g.Count() })
+          .Where(x => x.Count > 1)
+          .OrderByDescending(x => x.Count)
+          .Select(x => (x.Item, x.Count))
+          .ToList();
+  }
+
+  private void Clear()
+  {
+      InputText = string.Empty;
+      Duplicates.Clear();
+  }
+}

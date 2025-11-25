@@ -1,0 +1,99 @@
+/* /Layout/LayoutPreview.razor.rz.scp.css */
+.layout-preview[b-tn5wr3kx3h] {
+    font-size: 9px;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+    border: 2px solid #c0c4cc;
+    transition: border .3s linear;
+}
+
+    .layout-preview:hover[b-tn5wr3kx3h] {
+        border: 2px solid #28a745;
+    }
+
+    .layout-preview.active[b-tn5wr3kx3h] {
+        border: 2px solid #28a745;
+    }
+
+[b-tn5wr3kx3h] .layout {
+    --bb-layout-height: 80px;
+    --bb-layout-header-height: 16px;
+    --bb-layout-footer-height: 12px;
+    --bb-layout-sidebar-width: 30%;
+    --bb-layout-banner-font-size: 9px;
+    --bb-layout-title-color: #fff;
+    border: 1px solid var(--bb-layout-header-background);
+}
+
+    [b-tn5wr3kx3h] .layout .layout-footer,
+    [b-tn5wr3kx3h] .layout .layout-header {
+        justify-content: center;
+    }
+
+    [b-tn5wr3kx3h] .layout .layout-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+/* /Layout/MainLayout.razor.rz.scp.css */
+.layout-drawer-body[b-31bfcj47ii]  .groupbox {
+    margin-top: 1rem;
+}
+
+.layout-drawer-body[b-31bfcj47ii]  .btn-info {
+    --bs-info: #0078d4;
+    --bs-btn-hover-bg: #1260b0;
+    margin-bottom: 1rem;
+}
+
+.cell-label[b-31bfcj47ii] {
+    line-height: 35px;
+}
+
+#blazor-error-ui[b-31bfcj47ii] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-31bfcj47ii] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* /Pages/Users.razor.rz.scp.css */
+.page-user[b-r2hez6xybg] {
+    height: calc(100vh - 2rem - var(--bb-layout-footer-height) - var(--bb-layout-header-height) - var(--bb-tabs-item-height, 0));
+    display: flex;
+    flex-direction: column;
+}
+
+.user-demo-address[b-r2hez6xybg] {
+    margin-top: .25rem;
+    font-size: 86%;
+    color: #c0c4cc;
+}
+
+[b-r2hez6xybg] .table-users {
+    flex: 1;
+    height: 1%;
+    min-height: 0;
+}
+
+[b-r2hez6xybg] .table-cell img {
+    width: 46px;
+    border-radius: var(--bs-border-radius);
+}
+
+[b-r2hez6xybg] .table-cell .progress {
+    height: 6px;
+    margin-top: .5rem;
+}

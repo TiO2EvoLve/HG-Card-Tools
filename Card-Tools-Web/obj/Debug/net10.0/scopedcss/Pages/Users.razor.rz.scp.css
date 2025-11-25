@@ -1,0 +1,27 @@
+.page-user[b-r2hez6xybg] {
+    height: calc(100vh - 2rem - var(--bb-layout-footer-height) - var(--bb-layout-header-height) - var(--bb-tabs-item-height, 0));
+    display: flex;
+    flex-direction: column;
+}
+
+.user-demo-address[b-r2hez6xybg] {
+    margin-top: .25rem;
+    font-size: 86%;
+    color: #c0c4cc;
+}
+
+[b-r2hez6xybg] .table-users {
+    flex: 1;
+    height: 1%;
+    min-height: 0;
+}
+
+[b-r2hez6xybg] .table-cell img {
+    width: 46px;
+    border-radius: var(--bs-border-radius);
+}
+
+[b-r2hez6xybg] .table-cell .progress {
+    height: 6px;
+    margin-top: .5rem;
+}
