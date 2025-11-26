@@ -25,4 +25,31 @@
       <Folder Include="wwwroot\js\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-10.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-11.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-12.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-13.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-14.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-15.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-16.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-17.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-18.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-19.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-20.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-21.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-22.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-23.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-24.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-8.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\avatars\150-9.jpg" />
+    </ItemGroup>
+
 </Project>
