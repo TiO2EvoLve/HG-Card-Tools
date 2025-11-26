@@ -101,8 +101,8 @@
     // Missing ranges in human readable form
     private List<string> MissingRanges { get; set; } = new();
 
-    private bool HasRun { get; set; } = false;
-    private bool AllContinuous { get; set; } = false;
+    private bool HasRun { get; set; }
+    private bool AllContinuous { get; set; }
 
     private int ParseErrorsCount => Entries.Count(e => !e.Parsed);
     private int DuplicatesCount => Entries.Count(e => e.IsDuplicate);
@@ -134,7 +134,7 @@
             return;
         }
 
-        var lines = InputText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+        var lines = InputText.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
             .Select(l => l.Trim())
             .Where(l => l.Length > 0)
             .ToList();
@@ -156,9 +156,8 @@
         }
 
         BigInteger? prev = null;
-        for (int i = 0; i < Entries.Count; i++)
+        foreach (var cur in Entries)
         {
-            var cur = Entries[i];
             if (!cur.Parsed)
             {
                 AllContinuous = false;

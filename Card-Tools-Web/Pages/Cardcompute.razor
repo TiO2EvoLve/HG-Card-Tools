@@ -9,7 +9,7 @@
         <div class="grid gap-6">
             <!-- Section 1: Start and End -> Count -->
             <section class="p-4 border rounded-lg shadow-sm bg-white">
-                <h2 class="text-lg font-medium mb-2 ">张数计算</h2>
+                <h5 class="text-lg font-medium mb-2">张数计算</h5>
                 <div class="flex flex-col sm:flex-row gap-3 t">
                     <input class="flex-1 p-2 border rounded" placeholder="起始卡号（如 3104910200026700048）"
                            @bind="StartRaw1"/>
@@ -32,7 +32,7 @@
 
             <!-- Section 2: Start + Count -> Last -->
             <section class="p-4 border rounded-lg shadow-sm bg-white">
-                <h2 class="text-lg font-medium mb-2">计算末位卡号</h2>
+                <h5 class="text-lg font-medium mb-2">计算末位卡号</h5>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <input class="flex-1 p-2 border rounded" placeholder="起始卡号" @bind="StartRaw2"/>
                     <input class="w-40 p-2 border rounded" placeholder="张数（正整数）" @bind="CountRaw2"/>

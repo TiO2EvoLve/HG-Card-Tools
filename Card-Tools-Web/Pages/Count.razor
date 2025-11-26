@@ -1,19 +1,16 @@
 ﻿@page "/test"
-@using Console = System.Console
 
 <PageTitle>Test</PageTitle>
 
 <h3>简单测试页面</h3>
-
 <button @onclick="TestClick" class="btn btn-success">测试按钮</button>
 <p>点击次数: @count</p>
 
 @code {
-    private int count = 0;
+    private int count;
 
     private void TestClick()
     {
         count++;
-        Console.WriteLine($"测试按钮被点击: {count}");
     }
 }
