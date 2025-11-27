@@ -4,13 +4,13 @@
 
 <PageTitle>文本查重</PageTitle>
 <!-- 全局样式 -->
-<style>
-    body {
-        font-family: 'Microsoft YaHei', serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-</style>
+        <style>
+            body {
+                font-family: 'Microsoft YaHei', serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        </style>
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- 标题区域 -->
@@ -142,7 +142,6 @@
 @code {
     private string InputText { get; set; } = string.Empty;
     private List<(string Item, int Count)> Duplicates { get; set; } = new();
-
 
     private int TotalLines => InputText?.Split(["\r\n", "\n"], StringSplitOptions.None)?.Length ?? 0;
     private int NonEmptyLines => InputText?.Split(["\r\n", "\n"], StringSplitOptions.None).Select(l => l.Trim()).Count(l => !string.IsNullOrWhiteSpace(l)) ?? 0;
