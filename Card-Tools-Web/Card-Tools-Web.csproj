@@ -9,11 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Locales\en.json"/>
-        <EmbeddedResource Include="Locales\zh.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="BootstrapBlazor" Version="10.0.1" />
       <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8"/>
       <PackageReference Include="BootstrapBlazor.FontAwesome" Version="10.0.0" />

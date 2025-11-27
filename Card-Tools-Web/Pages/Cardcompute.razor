@@ -158,10 +158,9 @@
         {
             await JS.InvokeVoidAsync("navigator.clipboard.writeText", LastResult);
             LastCopyMessage = "已复制到剪贴板";
-            // clear message after short delay
             _ = Task.Run(async () =>
             {
-                await Task.Delay(1500);
+                await Task.Delay(1000);
                 LastCopyMessage = string.Empty;
                 await InvokeAsync(StateHasChanged);
             });
